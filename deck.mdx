@@ -1,3 +1,8 @@
+import Code from './Code.jsx';
+import { highlight } from '@mdx-deck/themes'
+import { prism } from '@mdx-deck/themes'
+
+
 # UI Testing 🧪
 
 By John Brennan 👨🏼‍💻
@@ -72,8 +77,42 @@ It works... but _I think_ it is a bit clunky.
 
 #### Sample `<vs-input />` component
 
-<iframe src="https://codesandbox.io/embed/vue-template-xbq08?fontsize=14" title="Vue Template" allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media" style="width:80%; height:750px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin" />
+<Code>
+{`
+  <template>
+    <div class="fancyInput">
+      <label :for="id" v-if="$slots.default"><slot /></label>
+      <input
+        :id="id"
+        v-bind="$attrs"
+        v-on:input="$emit('input', $event.target.value)"
+      />
+    </div>
+  </template>
+`}
+</Code>
 
 ---
 
-#### Where do I focus my efforts? 🤔
+### Why and how do I test this? 🤔
+
+---
+
+### Selectors for the job 👨‍🔧
+
+<div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+  <div style={{ marginBottom: 50 }}>
+    ❌
+    <Code inline>{`.myFancyInputStyles / .johnsButton`}</Code>
+  </div>
+
+
+  <div>
+    ✅
+    <Code inline>{`[data-testid="username"]`}</Code>
+    <Code inline>{`[aria-label="username"]`}</Code>
+    <Code inline>{`/username/i (Label/placeholder)`}</Code>
+  </div>
+</div>
+
+(Examples in repo!)
