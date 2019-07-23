@@ -63,6 +63,15 @@ It works... but _I think_ it is a bit clunky.
 
 ---
 
+#### Where do I focus my efforts?
+
+<div style={{ width: '30vw' }}>
+  <img src="https://react-dublinjs-jan-2019.netlify.com/images/ee5dea20aa19c85a011723f54e8585e3-testing-trophy.png" />
+  <div style={{ marginTop: '20px', fontSize: '1rem', fontWeight: 800, textAlign: 'center' }}>Image from testingjavascript.com</div>
+</div>
+
+---
+
 ## How to test :muscle:
 
 ---
@@ -116,3 +125,65 @@ It works... but _I think_ it is a bit clunky.
 </div>
 
 (Examples in repo!)
+
+---
+
+### Structure your tests for success 🔥
+
+---
+
+#### Global custom render function 🌍
+
+<Code>
+{`
+import { render as r } from '@testing-library/vue';
+...
+export function render(ui, { store: storeOverrides = {}, ...opts } = {}) {
+  return r(
+    ui,
+    {
+      routes,
+      store: { ...getDefaultStore(), ...storeOverrides },
+      ...opts,
+    },
+    (vue, store, router) => {
+      vue.use(VueI18n);
+      vue.use(VeeValidate);
+      ...
+    },
+  );
+}
+`}
+</Code>
+
+---
+
+#### Test specific render function 💯
+
+<Code>
+{`
+async function render(roles = schoolOwnerUser.roles, opts = {}) {
+  const utils = r(App, {
+    store: { state: { roles } },
+    ...opts,
+  });
+  return {
+    ...utils,
+    createButton: () => utils.getByText(/create/i),
+    itemsList: () => utils.getByTestId('items-list'),
+    activeUserSelect: () => utils.getByDisplayValue('active-user'),
+    deleteConfirmModal: () => utils.getByRole('dialog')
+  };
+}
+`}
+</Code>
+
+---
+
+### Show us a real example! 😤
+
+_`@vsware/norway-permissions`_
+
+---
+
+# Sound! 👋
